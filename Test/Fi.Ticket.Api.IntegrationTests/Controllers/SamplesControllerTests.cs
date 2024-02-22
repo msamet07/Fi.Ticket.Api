@@ -114,6 +114,49 @@ public class SamplesControllerTests : TicketScenariosBase
 
     }
 
+    [Fact, Trait("Sample", "Integration")]
+    public async Task Delete_ReturnsSuccess_WhenItemIsDeleted()
+    {
+     
+        var inputModel = Builder<SampleInputModel>.CreateNew()
+                          .Build().AddFiDefaults().AddFiSmartEnums().AddFiML().AddSchemaDefaults();
+
+        var creationResponse = await HttpClient.FiPostTestAsync<SampleInputModel, SampleOutputModel>($"{basePath}", inputModel);
+        creationResponse.FiShouldBeSuccessStatus();
+        creationResponse.Value.ShouldNotBeNull();
+
+        
+        var deleteResponse = await HttpClient.FiDeleteTestAsync($"{basePath}/{creationResponse.Value.Id}");
+        deleteResponse.FiShouldBeSuccessStatus();
+        var getResponse = await HttpClient.FiGetTestAsync<SampleOutputModel>($"{basePath}/{creationResponse.Value.Id}");
+    }
+
+    [Fact, Trait("Sample", "Integration")]
+    public async Task Update_ReturnsSuccess_WhenItemIsUpdated()
+    {
+        
+        var inputModel = Builder<SampleInputModel>.CreateNew()
+                          .Build().AddFiDefaults().AddFiSmartEnums().AddFiML().AddSchemaDefaults();
+        var creationResponse = await HttpClient.FiPostTestAsync<SampleInputModel, SampleOutputModel>($"{basePath}", inputModel);
+
+        creationResponse.FiShouldBeSuccessStatus();
+        creationResponse.Value.ShouldNotBeNull();
+
+        var updatedModel = creationResponse.Value;
+        updatedModel.Name = "Updated Name"; 
+
+        var updateResponse = await HttpClient.FiPutTestAsync<SampleOutputModel>($"{basePath}/{updatedModel.Id}", updatedModel);
+
+        updateResponse.FiShouldBeSuccessStatus();
+
+        var getResponse = await HttpClient.FiGetTestAsync<SampleOutputModel>($"{basePath}/{updatedModel.Id}");
+
+        getResponse.FiShouldBeSuccessStatus();
+        getResponse.Value.ShouldNotBeNull();
+        getResponse.Value.Id.ShouldEqual(updatedModel.Id);
+        getResponse.Value.Name.ShouldEqual(updatedModel.Name);
+    }
+
 
 }
 
