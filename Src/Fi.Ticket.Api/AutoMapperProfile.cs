@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Fi.Ticket.Api.Domain.Entity;
+
 //using Fi.Ticket.Api.Domain;
 //using Fi.Ticket.Api.Domain.Entity;
 using Fi.Ticket.Schema.Model;
@@ -9,7 +11,8 @@ namespace Fi.Ticket.Api
     {
         public AutoMapperProfile()
         {
-            
+            CreateMap<SampleInputModel,Sample>();
+            CreateMap<Sample, SampleOutputModel>();
         }
     }
 }
