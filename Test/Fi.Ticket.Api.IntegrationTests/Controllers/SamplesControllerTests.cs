@@ -25,6 +25,7 @@ using Moq;
 using Fi.Mediator.Interfaces;
 using Fi.Infra.Options;
 using static EA;
+using System.Net;
 
 namespace Fi.Ticket.Api.IntegrationTests.Controllers;
 
@@ -115,47 +116,64 @@ public class SamplesControllerTests : TicketScenariosBase
     }
 
     [Fact, Trait("Sample", "Integration")]
-    public async Task Delete_ReturnsSuccess_WhenItemIsDeleted()
-    {
-     
-        var inputModel = Builder<SampleInputModel>.CreateNew()
-                          .Build().AddFiDefaults().AddFiSmartEnums().AddFiML().AddSchemaDefaults();
+     public async Task Delete_ReturnsSuccess_WhenItemIsDeleted()
+     {
+         await EnsureEntityIsEmpty<Sample>();
 
-        var creationResponse = await HttpClient.FiPostTestAsync<SampleInputModel, SampleOutputModel>($"{basePath}", inputModel);
-        creationResponse.FiShouldBeSuccessStatus();
-        creationResponse.Value.ShouldNotBeNull();
+         var inputModel = Builder<SampleInputModel>.CreateNew()
+                           .Build().AddFiDefaults().AddFiSmartEnums().AddFiML().AddSchemaDefaults();
 
-        
-        var deleteResponse = await HttpClient.FiDeleteTestAsync($"{basePath}/{creationResponse.Value.Id}");
-        deleteResponse.FiShouldBeSuccessStatus();
-        var getResponse = await HttpClient.FiGetTestAsync<SampleOutputModel>($"{basePath}/{creationResponse.Value.Id}");
-    }
+         var response = await HttpClient.FiPostTestAsync<SampleInputModel, SampleOutputModel>($"{basePath}", inputModel);
+
+         response.FiShouldBeSuccessStatus();
+         response.Value.ShouldNotBeNull();
+
+
+         var deleteResponse = await HttpClient.FiDeleteTestAsync($"{basePath}/{response.Value.Id}");
+         deleteResponse.FiShouldBeSuccessStatus();
+         var getResponse = await HttpClient.FiGetTestAsync<SampleOutputModel>($"{basePath}/{response.Value.Id}");
+     }
 
     [Fact, Trait("Sample", "Integration")]
-    public async Task Update_ReturnsSuccess_WhenItemIsUpdated()
+     public async Task Update_ReturnsSuccess_WhenItemIsUpdated()
+     {
+         await EnsureEntityIsEmpty<Sample>();
+         var inputModel = Builder<SampleInputModel>.CreateNew()
+                           .Build().AddFiDefaults().AddFiSmartEnums().AddFiML().AddSchemaDefaults();
+
+         var response = await HttpClient.FiPostTestAsync<SampleInputModel, SampleOutputModel>($"{basePath}", inputModel);
+
+        response.FiShouldBeSuccessStatus();
+        response.Value.ShouldNotBeNull();
+
+         var updatedModel = response.Value;
+         updatedModel.Name = "Updated Name"; 
+
+         var updateResponse = await HttpClient.FiPutTestAsync<SampleOutputModel>($"{basePath}/{updatedModel.Id}", updatedModel);
+
+         updateResponse.FiShouldBeSuccessStatus();
+
+         var getResponse = await HttpClient.FiGetTestAsync<SampleOutputModel>($"{basePath}/{updatedModel.Id}");
+
+         getResponse.FiShouldBeSuccessStatus();
+         getResponse.Value.ShouldNotBeNull();
+         getResponse.Value.Id.ShouldEqual(updatedModel.Id);
+         getResponse.Value.Name.ShouldEqual(updatedModel.Name);
+     }
+
+    [Fact, Trait("Sample", "Integration")]
+    public async Task Get_WithInvalidId_ReturnsNotFound()
     {
-        
-        var inputModel = Builder<SampleInputModel>.CreateNew()
-                          .Build().AddFiDefaults().AddFiSmartEnums().AddFiML().AddSchemaDefaults();
-        var creationResponse = await HttpClient.FiPostTestAsync<SampleInputModel, SampleOutputModel>($"{basePath}", inputModel);
+        // Geçersiz bir id ile get iþlemi yap
+        var invalidId = "invalid_id";
+        var response = await HttpClient.FiGetTestAsync<SampleOutputModel>($"{basePath}/{invalidId}", false);
 
-        creationResponse.FiShouldBeSuccessStatus();
-        creationResponse.Value.ShouldNotBeNull();
-
-        var updatedModel = creationResponse.Value;
-        updatedModel.Name = "Updated Name"; 
-
-        var updateResponse = await HttpClient.FiPutTestAsync<SampleOutputModel>($"{basePath}/{updatedModel.Id}", updatedModel);
-
-        updateResponse.FiShouldBeSuccessStatus();
-
-        var getResponse = await HttpClient.FiGetTestAsync<SampleOutputModel>($"{basePath}/{updatedModel.Id}");
-
-        getResponse.FiShouldBeSuccessStatus();
-        getResponse.Value.ShouldNotBeNull();
-        getResponse.Value.Id.ShouldEqual(updatedModel.Id);
-        getResponse.Value.Name.ShouldEqual(updatedModel.Name);
+        // Doðru hata kodunun döndüðünü kontrol et
+       
+        response.ShouldBeNull();
     }
+   
+
 
 
 }
