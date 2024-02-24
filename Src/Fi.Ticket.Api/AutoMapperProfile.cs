@@ -13,6 +13,12 @@ namespace Fi.Ticket.Api
         {
             CreateMap<SampleInputModel,Sample>();
             CreateMap<Sample, SampleOutputModel>();
+            CreateMap<Fi.Ticket.Api.Domain.Entity.Ticket, TicketOutputModel>();
+            CreateMap<TicketInputModel, Fi.Ticket.Api.Domain.Entity.Ticket>();
+            CreateMap<Fi.Ticket.Api.Domain.Entity.TicketPicture, TicketPictureOutputModel>();
+            CreateMap<Fi.Ticket.Api.Domain.Entity.TicketResponse, TicketResponseOutputModel>();
+            CreateMap<TicketResponseInputModel, Fi.Ticket.Api.Domain.Entity.TicketResponse>();
+
         }
     }
 }

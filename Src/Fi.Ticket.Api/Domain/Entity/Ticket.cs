@@ -1,39 +1,35 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Fi.Infra.Context;
-using Fi.Infra.Schema.Attributes;
-using Fi.Infra.Schema.Model;
-using Fi.Ticket.Schema.Model;
-using Fi.Persistence.Relational.Domain;
-using Microsoft.EntityFrameworkCore;
+﻿using Fi.Persistence.Relational.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+using Fi.Ticket.Schema.Model;
+using Fi.Infra.Schema.Attributes;
 
 namespace Fi.Ticket.Api.Domain.Entity
 {
     [EntityAttribute(EA.ERT.AsIs, EA.EDT.DefinitionData, EA.ECT.Common, EA.ETT.Common, EA.EMT.Mandatory)]
-    public class Sample : EntityBaseWithBaseFieldsWithIdentity
+    public class Ticket : EntityBaseWithBaseFieldsWithIdentity
     {
-        public string Code { get; set; }
         public string Name { get; set; }
+        public string Surname { get; set; }
+        public short Age { get; set; }
+        public string IdNumber { get; set; }
         public string Description { get; set; }
-
-        public SampleType SampleType { get; set; }
+        public string Address { get; set; }
+        public string Code { get; set; }
+        public TicketStatus Status { get; set; }
     }
-
-    public class SampleConfiguration : IEntityTypeConfiguration<Sample>
+    public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
     {
-        public void Configure(EntityTypeBuilder<Sample> builder)
+        public void Configure(EntityTypeBuilder<Ticket> builder)
         {
             builder.Property(m => m.Code).IsRequired(true).HasMaxLength(10);
             builder.Property(m => m.Name).IsRequired(true).HasMaxLength(100);
             builder.Property(m => m.Description).IsRequired(true).HasMaxLength(500);
 
-            builder.Property(m => m.SampleType).IsRequired(true)
+            builder.Property(m => m.Status).IsRequired(true)
                    .HasConversion(
                        p => p.Value,
-                       p => SampleType.FromValue(p)
+                       p => TicketStatus.FromValue(p)
                    );
 
             builder.HasIndex(p => new { p.Code }).IsUnique();

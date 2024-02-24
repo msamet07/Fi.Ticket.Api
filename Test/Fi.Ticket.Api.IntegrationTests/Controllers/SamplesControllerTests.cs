@@ -172,8 +172,21 @@ public class SamplesControllerTests : TicketScenariosBase
        
         response.ShouldBeNull();
     }
-   
 
+    [Fact, Trait("Ticket", "Integration")]
+    public async Task aaaa()
+    {
+        // Geçersiz bir id ile get iþlemi yap
+        await EnsureEntityIsEmpty<Domain.Entity.Ticket>();
+        var inputModel = Builder<TicketInputModel>.CreateNew()
+                          .Build().AddFiDefaults().AddFiSmartEnums().AddFiML().AddSchemaDefaults();
+
+        var response = await HttpClient.FiPostTestAsync<TicketInputModel, TicketOutputModel>($"api/v1/Ticket/Ticket", inputModel);
+
+        // Doðru hata kodunun döndüðünü kontrol et
+
+        response.ShouldBeNull();
+    }
 
 
 }

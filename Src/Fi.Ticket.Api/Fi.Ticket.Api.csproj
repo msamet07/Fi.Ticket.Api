@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Persistence\" />
-    <Folder Include="Impl\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fi.Ticket.Schema\Fi.Ticket.Schema.csproj">

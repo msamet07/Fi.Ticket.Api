@@ -12,4 +12,14 @@ namespace Fi.Ticket.Schema.Model
         {
         }
     }
+    public class TicketStatus : FiSmartEnum<TicketStatus, byte>
+    {
+        public static readonly TicketStatus Answered = new("Answered", 1);
+        public static readonly TicketStatus Unanswered = new("Unanswered", 2);
+        public static readonly TicketStatus Unsolved = new("Unsolved", 3);
+
+        public TicketStatus(string code, byte value, string name = null) : base(code, value, name)
+        {
+        }
+    }
 }
