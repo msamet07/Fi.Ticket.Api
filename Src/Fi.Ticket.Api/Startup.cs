@@ -1,8 +1,14 @@
 ﻿using Autofac;
+using Fi.Infra.Context;
+using Fi.Infra.Schema.Const;
+using Fi.Infra.Schema.Model;
+using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
 
 namespace Fi.Ticket.Api
 {
@@ -37,5 +43,6 @@ namespace Fi.Ticket.Api
 
             new AutofacModule().RegisterFiModule(builder);
         }
+
     }
 }

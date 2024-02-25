@@ -3,6 +3,7 @@ using Fi.ApiBase.Controller;
 using Fi.Mediator.Message;
 using Fi.Ticket.Api.Cqrs;
 using Fi.Ticket.Schema.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,8 +14,10 @@ namespace Fi.Ticket.Api.Controllers
     [Route("api/v1/Ticket/[controller]")]
     public class TicketController : ApiControllerBase<TicketController>
     {
+        ApiControllerDI<TicketController> baseDI;
         public TicketController(ApiControllerDI<TicketController> baseDI) : base(baseDI)
         {
+            this.baseDI = baseDI;
         }
 
         [ApiKey("20a0b529-d4e4-4557-bae3-726f0a696c2d")]
@@ -30,7 +33,7 @@ namespace Fi.Ticket.Api.Controllers
         }
 
         [ApiKey("f81b0abe-57b1-4166-b1e6-5b6032d1ca28")]
-        [ApiAuthorizationAttribute(Infra.Schema.Model.ApiAccessType.Public)]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ApiResponse<List<TicketOutputModel>>> GetAllList()
         {
