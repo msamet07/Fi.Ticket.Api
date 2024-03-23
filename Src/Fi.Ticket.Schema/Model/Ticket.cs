@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Fi.Ticket.Schema.Model
 {
-    public record TicketInputModel : InputModelBase
+    public record TicketInputModel : InputModelBase//dışardan veri alırken kullanıyorum.
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -25,7 +25,9 @@ namespace Fi.Ticket.Schema.Model
         public TicketStatus Status { get; set; }
     }
 
-    public record TicketOutputModel : OutputModelBase
+    public record TicketOutputModel : OutputModelBase//Dışarıya veri göndermem gerektiği zaman kullanıyorum.
+    //aslında dışarı veri gönderme olayı biraz sıkıntılı bir durum. DB mizin güvenliği için dışarıya mümkün olduğunda az veri göndermek gerekiyor.
+   //handle lara geri dönecek olursak
     {
         public int Id { get; set; }
         public string Name { get; set; }

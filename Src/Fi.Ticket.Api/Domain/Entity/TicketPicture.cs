@@ -8,6 +8,8 @@ namespace Fi.Ticket.Api.Domain.Entity
 
     [EntityAttribute(EA.ERT.AsIs, EA.EDT.DefinitionData, EA.ECT.Common, EA.ETT.Common, EA.EMT.Mandatory)]
     public class TicketPicture : EntityBaseWithBaseFieldsWithIdentity
+
+        //aslında Ticketlar için birde resim yükleyebilmek adına bir alan açtım ama zaman dar olduğu için bunun front tarafında karşılığını yapmadım.
     {
         public int TicketId { get; set; }
         public int PictureId { get; set; }

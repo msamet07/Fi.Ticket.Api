@@ -6,16 +6,19 @@ using Fi.Infra.Schema.Attributes;
 
 namespace Fi.Ticket.Api.Domain.Entity
 {
+    //Aslında Entitiler bizim veri tabanımızdaki tablolara tekabül ediyor.Benim burada açtığım her sınıf EntityBaseWithBaseFieldsWithIdentity  
+    // den türediği sürece bunu bir tablo olarak algılıyor.ID vs zaten baseden geliyor.
+
     [EntityAttribute(EA.ERT.AsIs, EA.EDT.DefinitionData, EA.ECT.Common, EA.ETT.Common, EA.EMT.Mandatory)]
-    public class Ticket : EntityBaseWithBaseFieldsWithIdentity
+    public class Ticket : EntityBaseWithBaseFieldsWithIdentity 
     {
-        public string Name { get; set; }
+        public string Name { get; set; }//Pdf de yazan kullanıcıdan istenilen bilgiler.
         public string Surname { get; set; }
         public short Age { get; set; }
         public string IdNumber { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }
-        public string Code { get; set; }
+        public string Code { get; set; }//her ticket a bir kod atayacağım için bir kod alanı oluşturuyorum.
         public TicketStatus Status { get; set; }
     }
     public class TicketConfiguration : IEntityTypeConfiguration<Ticket>

@@ -30,28 +30,28 @@ using System.Net;
 namespace Fi.Ticket.Api.IntegrationTests.Controllers;
 
 //[TestCaseOrderer("Fi.Ticket.Api.IntegrationTests.TicketTestCaseOrderer", "Fi.Ticket.Api.IntegrationTests")]
-public class SamplesControllerTests : TicketScenariosBase
+public class SamplesControllerTests : TicketScenariosBase//ticketsenario baseden türemek zorunda Fi senaryo baseden türüyor 1 startup ve moclanmýþ olarak düþünebiliriz.
 {
     private const string basePath = "api/v1/Ticket/Samples";
     public SamplesControllerTests(TicketApplicationFactory fiTestApplicationFactory) : base(fiTestApplicationFactory)
     {
     }
 
-
+    //gerçekten veritabanýnda iþlem yapmamamýz gerekir.
     [Fact, Trait("Sample", "Integration")]
-    public async Task GetByKey_IfRequestedItemExist_ReturnsSuccess_WithItem()
+    public async Task GetByKey_IfRequestedItemExist_ReturnsSuccess_WithItem()//uygun bir isim çaðýracaðým metod ismi ve neyi kontrol edeceksem onu yazýp ne bekliyrsam onu yazýyorum.
     {
-        await EnsureEntityIsEmpty<Sample>();
+        await EnsureEntityIsEmpty<Sample>();//bunu çalýþtýrdýðýmýzda diðer datalarla diðer testlerle karýþmasýný engellemek için.Burada sample için sýfýrlama yaptýk.
 
         var inputModel = Builder<SampleInputModel>.CreateNew()
-                          .Build().AddFiDefaults().AddFiSmartEnums().AddFiML().AddSchemaDefaults();
+                          .Build().AddFiDefaults().AddFiSmartEnums().AddFiML().AddSchemaDefaults();//sahte sample imput model oluþturduk.
 
-        var responsePost = await HttpClient.FiPostTestAsync<SampleInputModel,SampleOutputModel>($"{basePath}", inputModel);
+        var responsePost = await HttpClient.FiPostTestAsync<SampleInputModel,SampleOutputModel>($"{basePath}", inputModel);//SampleInputModel göndereceðim ve geriye SampleOutputModel bekliyorum.Çünkü o post metoduna gittiðim zaman geriye SampleOutputModel dönüyor.Basepath dediðim yere controllerýn adresini veriyorum. 
 
-        var response = await HttpClient.FiGetTestAsync<SampleOutputModel>($"{basePath}/{responsePost.Value.Id}", false);
+        var response = await HttpClient.FiGetTestAsync<SampleOutputModel>($"{basePath}/{responsePost.Value.Id}", false);//ýdsi oluþmuþ bir SampleOutputModel dönüyor geriye ve getbykey in çalýþmasý için id sini veriyorum ve sample ý tekrar geri aldým.
 
-        response.FiShouldBeSuccessStatus(); 
-        response.Value.ShouldNotBeNull();
+        response.FiShouldBeSuccessStatus(); //1 tane sample dönmüþse
+        response.Value.ShouldNotBeNull();//null deðilse
         response.Value.Id.ShouldEqual(responsePost.Value.Id);
     }
 

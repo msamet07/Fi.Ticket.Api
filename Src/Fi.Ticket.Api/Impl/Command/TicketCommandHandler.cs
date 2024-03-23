@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fi.Ticket.Api.Impl.Command
+namespace Fi.Ticket.Api.Impl.Command //oluşturma silme güncelleme işlemleri için oluşturuyorum.
 {
     public class TicketCommandHandler :
 
@@ -41,14 +41,14 @@ namespace Fi.Ticket.Api.Impl.Command
             sessionDI.ExecutionTrace.InitTrace();
 
             var existedTicket = await dbContext.Set<Fi.Ticket.Api.Domain.Entity.Ticket>().FirstOrDefaultAsNoTrackingAsync(x => x.Code == request.Model.Code, cancellationToken);
-            if (existedTicket != null)
+            if (existedTicket != null)//aynı koddan varmı kontrolü yapıyoruz.
                 throw exceptionFactory.BadRequestEx(ErrorCodes.TicketAlreadyExists, localizer[FiLocalizedStringType.EntityName, "Ticket"], existedTicket.Id);
 
             var entity = mapper.Map<Fi.Ticket.Api.Domain.Entity.Ticket>(request.Model);
-
-            await dbContext.AddAsync(entity);
-            await dbContext.SaveChangesAsync();
-            return mapper.Map<TicketOutputModel>(entity);
+            //Ticket input model geldiği için bunu mapper ile ticketa çeviriyoruz
+            await dbContext.AddAsync(entity);//veritabanına gönderiyoruz ama tek başına yeterli değil
+            await dbContext.SaveChangesAsync();// o yüzden bunuda ekliyoruz.
+            return mapper.Map<TicketOutputModel>(entity);//entity frameworkün özelliği olarak buraya kadar bir ıd yoktu,ıd oluştur ve buradada ıd li halini mapleyerek döndü.
         }
 
         public async Task<TicketOutputModel> Handle(UpdateTicketCommand request, CancellationToken cancellationToken)
@@ -82,7 +82,8 @@ namespace Fi.Ticket.Api.Impl.Command
             dbContext.Remove(fromDb);
             await dbContext.SaveChangesAsync();
 
-            return new VoidResult();
+            return new VoidResult();//bişey dönmeyeceksem voidresult diyorum.
         }
     }
 }
+//buradan validatörlere geçelim.

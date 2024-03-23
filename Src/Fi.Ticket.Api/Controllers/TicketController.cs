@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Fi.Ticket.Api.Controllers
 {
-    [ApiController]
-    [Route("api/v1/Ticket/[controller]")]
+    [ApiController]//Fi nin altyapısından geliyor.
+    [Route("api/v1/Ticket/[controller]")]//bu controlerı çalıştırmak için yapmam gereken route.
     public class TicketController : ApiControllerBase<TicketController>
     {
         ApiControllerDI<TicketController> baseDI;

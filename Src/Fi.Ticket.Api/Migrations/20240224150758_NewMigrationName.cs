@@ -11,11 +11,11 @@ namespace Fi.Ticket.Api.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Ticket",
+            migrationBuilder.CreateTable(//gitti kontrol etti , baktı ki Ticket tablosu yok Create table diyerek tablomu oluşturdu.
+                name: "Ticket", //kolonlarını vs verdi.
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)//Id yi ben yazmadım muhtemelen buda altyapıdan geliyor.Entity nin miras aldığı sınıftan.
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -101,3 +101,5 @@ namespace Fi.Ticket.Api.Migrations
         }
     }
 }
+//uygulamamız memoryden çalıştığı için database olarak bir yere bağlamadım.Eğer yapacak olsaydım DB contexin içerisine gidip
+//

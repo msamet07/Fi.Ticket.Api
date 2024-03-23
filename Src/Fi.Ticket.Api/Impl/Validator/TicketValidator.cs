@@ -17,7 +17,7 @@ namespace Fi.Ticket.Api.Impl.Validator
             RuleFor(x => x.Description).MaximumLength(100);
         }
     }
-
+    //Burada dışarıdan gelen veriler için kontroller yazıyoruz.
     public class CreateTicketValidator : AbstractValidator<CreateTicketCommand>
     {
         public CreateTicketValidator()

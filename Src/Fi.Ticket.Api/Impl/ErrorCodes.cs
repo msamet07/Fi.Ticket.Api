@@ -2,7 +2,7 @@ using Fi.Infra.Exceptions;
 
 namespace Fi.Ticket.Api.Impl
 {
-    public class ErrorCodes : BaseErrorCodes
+    public class ErrorCodes : BaseErrorCodes//modülle ilgili bütün hata kodlarýný burada yazýyor olacaðýz.
     {
         public static FiBusinessReason SampleAlreadyExists => new FiBusinessReason(1,
             "A sample with same Code already exists. {0} ({1}).");

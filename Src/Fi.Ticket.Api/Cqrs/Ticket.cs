@@ -16,3 +16,7 @@ namespace Fi.Ticket.Api.Cqrs
 
     public record GetAllTicketQuery : QueryBase<List<TicketOutputModel>>;
 }
+//burası benim anladığım kadarıyla bir desingPattern var. Entity i oluşturduktan sonra cqrs altında bunun temel işlemlerini yazmam gerekiyor diye düşünüyoruö
+//İsimlendirmede dikkat etmemiz gereken CRUD için Command Baseden gelecek , Select işlemleri için ise sonu Qryden gelecek bunlarda yine altyapıdan geliyor.
+//ihtiyaca göre bence bunlar entitynin yapısına göre özelleşebilir.
+//gidip Ticket için bir qeryhandler yazmam gerekiyor.

@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fi.Ticket.Api.Persistence
 {
-    public class FiTicketDbContext : FiDbContext, IFiModuleDbContext
+    public class FiTicketDbContext : FiDbContext, IFiModuleDbContext //yeni bir contex oluşturmak isteseydim FiDB contexten türetirdim.Entity frameworkün Db contexi bunun alyapısında old. içim.
     {
         public FiTicketDbContext(IFiDbContextFactory fiDbContextFactory) : base(fiDbContextFactory)
         {
@@ -28,9 +28,9 @@ namespace Fi.Ticket.Api.Persistence
                     dbName,
                     databaseSettings.DatabaseCluster.UserName,
                     databaseSettings.DatabaseCluster.Password,
-                    applicationName);
+                    applicationName);//burdaki konfigürasyonu değiştirerek bağlandığım yeri değiştiebilirdim.
 
-            optionsBuilder.UseSqlServer(connectionString,
+            optionsBuilder.UseSqlServer(connectionString,//bu Usesql dediği için Mssql e bağlanır.
                                         sqlServerOptions => sqlServerOptions.CommandTimeout(sqlCommandTimeout));
         }
     }
