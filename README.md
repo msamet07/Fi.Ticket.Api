@@ -30,7 +30,7 @@
 
 ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/f846c5522db6c6000b86e4ded7817313f3ea1206caad4e13.png)
 
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/55cd104549e0c360319aa1639443cd9b092a9ba171e13837.png)
+
 
 ![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/edc933ac150b2e0449e604cff9e2f8e480a65ec9cc7a57e8.png)
 
